@@ -1,8 +1,9 @@
 [package]
 name = "thumbor"
 description = "A Rust client for the Thumbor image service"
-version = "0.0.3"
+version = "0.0.4"
 repository = "https://github.com/SteelAlloy/thumbor-rs"
+documentation = "https://docs.rs/thumbor"
 readme = "README.md"
 license = "MIT"
 edition = "2021"
