@@ -1,6 +1,29 @@
 [package]
-name = "thumbor-rs"
-version = "0.1.0"
+name = "thumbor"
+description = "A Rust client for the Thumbor image service"
+version = "0.0.2"
+repository = "https://github.com/SteelAlloy/thumbor-rs"
+readme = "README.md"
+license = "MIT"
 edition = "2021"
+rust-version = "1.80"
+authors = ["SteelAlloy"]
+categories = ["web-programming", "multimedia::images"]
+keywords = ["client", "thumbor", "crop", "resize", "image"]
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+cargo = "deny"
+pedantic = "deny"
 
 [dependencies]
+url = "2.5.2"
+strum = { version = "0.26.3", features = ["derive"] }
+thiserror = "1.0.63"
+http = "1.1.0"
+hmac = "0.12.1"
+sha1 = "0.10.6"
+base64ct = { version = "1.6.0", features = ["alloc"] }
+bon = "2.3.0"
