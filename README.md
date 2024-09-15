@@ -1,9 +1,7 @@
-<center>
+<div align="center">
     <img src="assets/doc/logo.svg" width="256">
     <h1>Rust <a href="https://www.thumbor.org/">Thumbor</a> client</h1>
-</center>
-
-# 
+</div>
 
 [![Latest Version](https://img.shields.io/crates/v/thumbor.svg)](https://crates.io/crates/thumbor)
 [![Rust Documentation](https://docs.rs/thumbor/badge.svg)](https://docs.rs/thumbor)

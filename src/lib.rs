@@ -1,5 +1,7 @@
 #![deny(clippy::unwrap_used)]
-#![doc(html_logo_url = "/logo.svg")]
+#![doc(
+    html_logo_url = "https://raw.githubusercontent.com/SteelAlloy/thumbor-rs/main/assets/doc/logo.svg"
+)]
 
 pub mod error;
 pub mod geometry;
