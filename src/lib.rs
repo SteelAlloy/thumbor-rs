@@ -1,4 +1,5 @@
 #![deny(clippy::unwrap_used)]
+#![doc(html_logo_url = "/logo.svg")]
 
 pub mod error;
 pub mod geometry;
