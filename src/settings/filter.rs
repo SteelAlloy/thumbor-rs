@@ -102,6 +102,10 @@ pub enum Filter {
         w_ratio: Option<u8>,
         h_ratio: Option<u8>,
     },
+    Custom {
+        name: String,
+        args: Vec<String>,
+    },
 }
 
 impl fmt::Display for Filter {
@@ -119,6 +123,7 @@ impl fmt::Display for Filter {
             | Filter::StripEXIF
             | Filter::StripICC
             | Filter::Upscale => vec![],
+            Filter::Custom { args, .. } => args.clone(),
             Filter::BackgroundColor(color) => vec![color.to_string()],
             Filter::Brightness(brightness) => vec![brightness.to_string()],
             Filter::Contrast(contrast) => vec![contrast.to_string()],
@@ -212,6 +217,12 @@ impl fmt::Display for Filter {
                 args
             }
         };
-        write!(f, "{}({})", self.as_ref(), args.join(","))
+
+        let name = match self {
+            Filter::Custom { name, .. } => name,
+            _ => self.as_ref(),
+        };
+
+        write!(f, "{name}({})", args.join(","))
     }
 }
