@@ -1,5 +1,5 @@
 use crate::settings::{Settings, SettingsBuilder};
-use hmac::Hmac;
+use hmac::{digest::InvalidLength, Hmac, Mac};
 use sha1::Sha1;
 
 pub type HmacSha1 = Hmac<Sha1>;
@@ -8,20 +8,22 @@ pub type HmacSha1 = Hmac<Sha1>;
 pub enum Security {
     #[default]
     Unsafe,
-    Hmac(String),
+    Hmac(HmacSha1),
 }
 
-impl From<String> for Security {
-    fn from(value: String) -> Self {
-        Security::Hmac(value)
+impl TryFrom<String> for Security {
+    type Error = InvalidLength;
+
+    fn try_from(value: String) -> Result<Self, Self::Error> {
+        let hmac = HmacSha1::new_from_slice(value.as_bytes())?;
+        Ok(Security::Hmac(hmac))
     }
 }
 
 /// ```
 /// use thumbor::Server;
-/// 
-/// let server = Server::new_secured("http://localhost:8888", "my-security-key");
-/// let server = Server::new_unsafe("http://localhost:8888"); // Don't use this in production !
+///
+/// let server = Server::new("http://localhost:8888", "my-security-key").unwrap();
 /// ```
 #[derive(Default, Clone)]
 pub struct Server {
@@ -30,20 +32,34 @@ pub struct Server {
 }
 
 impl Server {
+    pub fn new(origin: impl Into<String>, key: impl Into<String>) -> Result<Self, InvalidLength> {
+        Ok(Server {
+            origin: origin.into(),
+            security: key.into().try_into()?,
+        })
+    }
+
+    /// ```
+    /// use thumbor::Server;
+    ///
+    /// // Don't use this in production !
+    /// let server = Server::new_unsafe("http://localhost:8888");
+    /// ```
     pub fn new_unsafe(origin: impl Into<String>) -> Self {
         Server {
             origin: origin.into(),
             security: Security::Unsafe,
         }
     }
-    pub fn new_secured(origin: impl Into<String>, key: impl Into<String>) -> Self {
-        Server {
-            origin: origin.into(),
-            security: Security::Hmac(key.into()),
-        }
-    }
 
-    pub fn url_builder(&self) -> SettingsBuilder {
+    /// Create a new SettingsBuilder with the current Server.
+    /// ```
+    /// use thumbor::Server;
+    ///
+    /// let server = Server::new("http://localhost:8888", "my-security-key").unwrap();
+    /// let builder = server.settings_builder();
+    /// ```
+    pub fn settings_builder(&self) -> SettingsBuilder {
         Settings::with_server(self.clone())
     }
 }

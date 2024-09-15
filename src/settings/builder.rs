@@ -1,13 +1,7 @@
+use super::{FitIn, ResponseMode, Settings, Trim};
+use crate::server::Security;
 use base64ct::{Base64Url, Encoding};
 use hmac::Mac;
-use http::Uri;
-
-use crate::{
-    error::Error,
-    server::{HmacSha1, Security},
-};
-
-use super::{FitIn, ResponseMode, Settings, Trim};
 
 impl Settings {
     fn build_path(&self, image_uri: &str) -> String {
@@ -80,36 +74,24 @@ impl Settings {
         path.join("/")
     }
 
-    /// # Errors
-    /// - `Error::UrlParseError`: URL parsing failed.
-    /// - `Error::UrlCannotBeABase`: this URL is cannot-be-a-base.
-    /// # Panics
-    /// TODO: doc
-    pub fn build(&self, image_uri: &str) -> Result<String, Error> {
+    pub fn to_path(&self, image_uri: &str) -> String {
         let path = self.build_path(image_uri);
 
         let security = match &self.server.security {
-            Security::Unsafe => "unsafe".to_owned(),
-            Security::Hmac(secret_key) => {
-                let mut mac = HmacSha1::new_from_slice(secret_key.as_bytes()).unwrap();
-
+            Security::Unsafe => "unsafe",
+            Security::Hmac(hmac) => {
+                let mut mac = hmac.clone();
                 mac.update(path.as_bytes());
 
                 let signature = mac.finalize().into_bytes();
-
-                Base64Url::encode_string(&signature)
+                &Base64Url::encode_string(&signature)
             }
         };
 
-        Ok(format!("{}/{}/{}", self.server.origin, security, path))
+        format!("/{security}/{path}")
     }
 
-    /// # Errors
-    /// - `Error::UrlParseError`: URL parsing failed.
-    /// - `Error::UrlCannotBeABase`: this URL is cannot-be-a-base.
-    /// # Panics
-    /// TODO: doc
-    pub fn build_uri(&self, image_uri: &str) -> Result<Uri, Error> {
-        Ok(self.build(image_uri).unwrap().parse::<Uri>().unwrap())
+    pub fn to_url(&self, image_uri: &str) -> String {
+        format!("{}{}", self.server.origin, self.to_path(image_uri))
     }
 }

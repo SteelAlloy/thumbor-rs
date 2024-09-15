@@ -1,7 +1,7 @@
 [package]
 name = "thumbor"
 description = "A Rust client for the Thumbor image service"
-version = "0.0.4"
+version = "0.1.0"
 repository = "https://github.com/SteelAlloy/thumbor-rs"
 documentation = "https://docs.rs/thumbor"
 readme = "README.md"
@@ -20,10 +20,8 @@ cargo = "deny"
 pedantic = "deny"
 
 [dependencies]
-url = "2.5.2"
 strum = { version = "0.26.3", features = ["derive"] }
 thiserror = "1.0.63"
-http = "1.1.0"
 hmac = "0.12.1"
 sha1 = "0.10.6"
 base64ct = { version = "1.6.0", features = ["alloc"] }

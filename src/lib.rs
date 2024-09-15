@@ -1,3 +1,5 @@
+#![deny(clippy::unwrap_used)]
+
 pub mod error;
 pub mod geometry;
 mod server;
