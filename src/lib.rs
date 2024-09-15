@@ -1,5 +1,5 @@
-mod error;
-mod geometry;
+pub mod error;
+pub mod geometry;
 mod server;
 mod settings;
 
