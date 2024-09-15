@@ -1,6 +1,5 @@
+use crate::geometry::Rect;
 use std::fmt;
-
-use super::geometry::Rect;
 
 pub enum Color {
     Rgb(u8, u8, u8),
