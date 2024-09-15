@@ -57,7 +57,7 @@ impl Server {
     /// use thumbor::Server;
     ///
     /// let server = Server::new("http://localhost:8888", "my-security-key").unwrap();
-    /// let builder = server.settings_builder();
+    /// let builder = server.endpoint_builder();
     /// ```
     pub fn endpoint_builder(&self) -> EndpointBuilder {
         Endpoint::with_server(self.clone())

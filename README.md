@@ -1,6 +1,6 @@
 <div align="center">
     <img src="assets/doc/logo.svg" width="256">
-    <h1>Rust <a href="https://www.thumbor.org/">Thumbor</a> client</h1>
+    <h1>Rust <a href="https://www.thumbor.org">Thumbor</a> client</h1>
     <a href="https://github.com/SteelAlloy/thumbor-rs">
         <img
             alt="Repository"
@@ -27,6 +27,12 @@
     /></a>
 </div>
 
+[Thumbor](https://www.thumbor.org) is a smart imaging service. It enables on-demand crop, resizing and flipping of images.
+It features a very smart detection of important points in the image for better cropping and resizing,
+using state-of-the-art face and feature detection algorithms
+
+This library is a Rust client implementation of the Thumbor image service to generate image urls.
+
 ## Usage
 
 ```rust
@@ -34,10 +40,10 @@ use thumbor::Server;
 
 let server = Server::new("http://localhost:8888", "my-security-key").unwrap();
 
-let settings = server.settings_builder()
+let endpoint = server.endpoint_builder()
     .resize((300, 200))
     .smart(true)
     .build();
 
-let url = settings.to_url("path/to/my/image.jpg");
+let url = endpoint.to_url("path/to/my/image.jpg");
 ```
