@@ -108,10 +108,9 @@ pub enum Filter {
     },
 }
 
-impl fmt::Display for Filter {
-    #[allow(clippy::too_many_lines)]
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let args = match self {
+impl Filter {
+    fn args(&self) -> Vec<String> {
+        match self {
             Filter::AutoJPG
             | Filter::Cover
             | Filter::Equalize
@@ -216,13 +215,18 @@ impl fmt::Display for Filter {
                 }
                 args
             }
-        };
+        }
+    }
+}
 
+impl fmt::Display for Filter {
+    #[allow(clippy::too_many_lines)]
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let name = match self {
             Filter::Custom { name, .. } => name,
             _ => self.as_ref(),
         };
 
-        write!(f, "{name}({})", args.join(","))
+        write!(f, "{name}({})", self.args().join(","))
     }
 }

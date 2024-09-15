@@ -17,6 +17,12 @@ impl From<String> for Security {
     }
 }
 
+/// ```
+/// use thumbor::Server;
+/// 
+/// let server = Server::new_secured("http://localhost:8888", "my-security-key");
+/// let server = Server::new_unsafe("http://localhost:8888"); // Don't use this in production !
+/// ```
 #[derive(Default, Clone)]
 pub struct Server {
     pub origin: String,
