@@ -78,13 +78,13 @@ impl Settings {
         let path = self.build_path(image_uri);
 
         let security = match &self.server.security {
-            Security::Unsafe => "unsafe",
+            Security::Unsafe => "unsafe".to_string(),
             Security::Hmac(hmac) => {
                 let mut mac = hmac.clone();
                 mac.update(path.as_bytes());
 
                 let signature = mac.finalize().into_bytes();
-                &Base64Url::encode_string(&signature)
+                Base64Url::encode_string(&signature)
             }
         };
 
