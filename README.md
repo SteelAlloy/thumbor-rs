@@ -29,20 +29,6 @@
 
 ## Usage
 
-In short :
-
-```rust
-use thumbor::Server;
-
-let url = Server::new("http://localhost:8888", "my-security-key")
-    .unwrap()
-    .settings_builder()
-    .resize((300, 200))
-    .smart(true)
-    .build()
-    .to_url("path/to/my/image.jpg");
-```
-
 ```rust
 use thumbor::Server;
 

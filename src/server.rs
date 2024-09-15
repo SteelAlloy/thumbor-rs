@@ -1,4 +1,4 @@
-use crate::settings::{Settings, SettingsBuilder};
+use super::{Endpoint, EndpointBuilder};
 use hmac::{digest::InvalidLength, Hmac, Mac};
 use sha1::Sha1;
 
@@ -59,7 +59,7 @@ impl Server {
     /// let server = Server::new("http://localhost:8888", "my-security-key").unwrap();
     /// let builder = server.settings_builder();
     /// ```
-    pub fn settings_builder(&self) -> SettingsBuilder {
-        Settings::with_server(self.clone())
+    pub fn endpoint_builder(&self) -> EndpointBuilder {
+        Endpoint::with_server(self.clone())
     }
 }

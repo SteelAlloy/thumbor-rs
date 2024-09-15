@@ -1,9 +1,9 @@
-use super::{FitIn, ResponseMode, Settings, Trim};
+use super::{Endpoint, FitIn, ResponseMode, Trim};
 use crate::server::Security;
 use base64ct::{Base64Url, Encoding};
 use hmac::Mac;
 
-impl Settings {
+impl Endpoint {
     fn build_path(&self, image_uri: &str) -> String {
         let mut path = vec![];
 
@@ -74,6 +74,15 @@ impl Settings {
         path.join("/")
     }
 
+    /// ```
+    /// use thumbor::Server;
+    ///
+    /// let server = Server::new_unsafe("http://localhost:8888");
+    /// let endpoint = server.endpoint_builder().build();
+    /// let path = endpoint.to_path("path/to/my/image.jpg");
+    ///
+    /// assert_eq!(path, "/unsafe/path/to/my/image.jpg");
+    /// ```
     pub fn to_path(&self, image_uri: &str) -> String {
         let path = self.build_path(image_uri);
 
@@ -91,6 +100,15 @@ impl Settings {
         format!("/{security}/{path}")
     }
 
+    /// ```
+    /// use thumbor::Server;
+    ///
+    /// let server = Server::new_unsafe("http://localhost:8888");
+    /// let endpoint = server.endpoint_builder().build();
+    /// let path = endpoint.to_url("path/to/my/image.jpg");
+    ///
+    /// assert_eq!(path, "http://localhost:8888/unsafe/path/to/my/image.jpg");
+    /// ```
     pub fn to_url(&self, image_uri: &str) -> String {
         format!("{}{}", self.server.origin, self.to_path(image_uri))
     }

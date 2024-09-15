@@ -1,16 +1,16 @@
 use crate::{
-    settings::{FitIn, ResponseMode},
-    Filter, Server, SettingsBuilder,
+    endpoint::{FitIn, ResponseMode},
+    EndpointBuilder, Filter, Server,
 };
 
 const TEST_BASE: &str = "http://my.server.com";
 const SECURITY_KEY: &str = "my-security-key";
 const IMAGE_PATH: &str = "my.server.com/some/path/to/image.jpg";
 
-fn new_builder() -> SettingsBuilder {
+fn new_builder() -> EndpointBuilder {
     Server::new(TEST_BASE, SECURITY_KEY)
         .expect("Server creation failed")
-        .settings_builder()
+        .endpoint_builder()
 }
 
 #[test]
@@ -18,9 +18,9 @@ fn signing_of_a_known_url_results() {
     let width = 300;
     let height = 200;
 
-    let settings = new_builder().resize((width, height)).build();
+    let endpoint = new_builder().resize((width, height)).build();
 
-    let path = settings.to_path(IMAGE_PATH);
+    let path = endpoint.to_path(IMAGE_PATH);
 
     assert_eq!(
         path,
@@ -30,9 +30,9 @@ fn signing_of_a_known_url_results() {
 
 #[test]
 fn signature_with_meta() {
-    let settings = new_builder().response(ResponseMode::Metadata).build();
+    let endpoint = new_builder().response(ResponseMode::Metadata).build();
 
-    let path = settings.to_path(IMAGE_PATH);
+    let path = endpoint.to_path(IMAGE_PATH);
 
     assert_eq!(
         path,
@@ -42,9 +42,9 @@ fn signature_with_meta() {
 
 #[test]
 fn signature_with_smart() {
-    let settings = new_builder().smart(true).build();
+    let endpoint = new_builder().smart(true).build();
 
-    let path = settings.to_path(IMAGE_PATH);
+    let path = endpoint.to_path(IMAGE_PATH);
 
     assert_eq!(
         path,
@@ -54,9 +54,9 @@ fn signature_with_smart() {
 
 #[test]
 fn signature_with_fit_in() {
-    let settings = new_builder().fit_in(FitIn::Default).build();
+    let endpoint = new_builder().fit_in(FitIn::Default).build();
 
-    let path = settings.to_path(IMAGE_PATH);
+    let path = endpoint.to_path(IMAGE_PATH);
 
     assert_eq!(
         path,
@@ -66,11 +66,11 @@ fn signature_with_fit_in() {
 
 #[test]
 fn signature_with_filters() {
-    let settings = new_builder()
+    let endpoint = new_builder()
         .filters([Filter::Brightness(10), Filter::Contrast(20)])
         .build();
 
-    let path = settings.to_path(IMAGE_PATH);
+    let path = endpoint.to_path(IMAGE_PATH);
 
     assert_eq!(
         path,
