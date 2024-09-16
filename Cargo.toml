@@ -1,7 +1,7 @@
 [package]
 name = "thumbor"
 description = "A Rust client for the Thumbor image service"
-version = "0.1.6"
+version = "0.1.7"
 repository = "https://github.com/SteelAlloy/thumbor-rs"
 documentation = "https://docs.rs/thumbor"
 readme = "README.md"
@@ -12,11 +12,9 @@ authors = ["SteelAlloy"]
 categories = ["web-programming", "multimedia::images"]
 keywords = ["client", "thumbor", "crop", "resize", "image"]
 
+# https://docs.rs/katex-doc/0.1.0/katex_doc/
 [package.metadata.docs.rs]
-rustdoc-args = [
-    "--html-in-header",
-    ".cargo/registry/src/github.com-1ecc6299db9ec823/katex-doc-0.1.0/katex.html",
-]
+rustdoc-args = [ "--html-in-header", "katex-header.html" ]
 
 [workspace.lints.rust]
 unsafe_code = "forbid"
@@ -32,3 +30,4 @@ hmac = "0.12.1"
 sha1 = "0.10.6"
 base64ct = { version = "1.6.0", features = ["alloc"] }
 bon = "2.3.0"
+katex-doc = "0.1.0"
