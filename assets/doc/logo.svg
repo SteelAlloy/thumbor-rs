@@ -1,117 +1,116 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;">
+    <style>path,circle{fill:black;stroke:black;}@media(prefers-color-scheme:dark){path,circle{fill: white;stroke:white;}}</style>
     <g id="gear" transform="matrix(9.72549,0,0,9.72549,512,512)">
-        <circle cx="0" cy="0" r="43" style="fill:none;stroke:black;stroke-width:9px;"/>
+        <circle cx="0" cy="0" r="43" style="fill:none;stroke-width:9px;"/>
         <g id="cogs">
-            <path id="cog" d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+            <path id="cog" d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             <g id="cog1" serif:id="cog" transform="matrix(0.980785,0.19509,-0.19509,0.980785,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog2" serif:id="cog" transform="matrix(0.92388,0.382683,-0.382683,0.92388,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog3" serif:id="cog" transform="matrix(0.83147,0.55557,-0.55557,0.83147,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog4" serif:id="cog" transform="matrix(0.707107,0.707107,-0.707107,0.707107,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog5" serif:id="cog" transform="matrix(0.55557,0.83147,-0.83147,0.55557,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog6" serif:id="cog" transform="matrix(0.382683,0.92388,-0.92388,0.382683,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog7" serif:id="cog" transform="matrix(0.19509,0.980785,-0.980785,0.19509,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog8" serif:id="cog" transform="matrix(-3.82857e-16,1,-1,-3.82857e-16,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog9" serif:id="cog" transform="matrix(-0.19509,0.980785,-0.980785,-0.19509,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog10" serif:id="cog" transform="matrix(-0.382683,0.92388,-0.92388,-0.382683,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog11" serif:id="cog" transform="matrix(-0.55557,0.83147,-0.83147,-0.55557,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog12" serif:id="cog" transform="matrix(-0.707107,0.707107,-0.707107,-0.707107,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog13" serif:id="cog" transform="matrix(-0.83147,0.55557,-0.55557,-0.83147,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog14" serif:id="cog" transform="matrix(-0.92388,0.382683,-0.382683,-0.92388,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog15" serif:id="cog" transform="matrix(-0.980785,0.19509,-0.19509,-0.980785,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog16" serif:id="cog" transform="matrix(-1,-7.65714e-16,7.65714e-16,-1,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog17" serif:id="cog" transform="matrix(-0.980785,-0.19509,0.19509,-0.980785,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog18" serif:id="cog" transform="matrix(-0.92388,-0.382683,0.382683,-0.92388,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog19" serif:id="cog" transform="matrix(-0.83147,-0.55557,0.55557,-0.83147,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog20" serif:id="cog" transform="matrix(-0.707107,-0.707107,0.707107,-0.707107,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog21" serif:id="cog" transform="matrix(-0.55557,-0.83147,0.83147,-0.55557,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog22" serif:id="cog" transform="matrix(-0.382683,-0.92388,0.92388,-0.382683,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog23" serif:id="cog" transform="matrix(-0.19509,-0.980785,0.980785,-0.19509,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog24" serif:id="cog" transform="matrix(7.04481e-16,-1,1,7.04481e-16,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog25" serif:id="cog" transform="matrix(0.19509,-0.980785,0.980785,0.19509,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog26" serif:id="cog" transform="matrix(0.382683,-0.92388,0.92388,0.382683,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog27" serif:id="cog" transform="matrix(0.55557,-0.83147,0.83147,0.55557,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog28" serif:id="cog" transform="matrix(0.707107,-0.707107,0.707107,0.707107,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog29" serif:id="cog" transform="matrix(0.83147,-0.55557,0.55557,0.83147,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog30" serif:id="cog" transform="matrix(0.92388,-0.382683,0.382683,0.92388,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
             <g id="cog31" serif:id="cog" transform="matrix(0.980785,-0.19509,0.19509,0.980785,0,0)">
-                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke:black;stroke-width:3px;stroke-linejoin:round;"/>
+                <path d="M46,3L51,0L46,-3L46,3Z" style="fill-rule:nonzero;stroke-width:3px;stroke-linejoin:round;"/>
             </g>
         </g>
         <g id="mounts">
-            <path id="mount" d="M-7,-42L0,-35L7,-42L-7,-42Z" style="fill-rule:nonzero;stroke:black;stroke-width:6px;stroke-linejoin:round;"/>
+            <path id="mount" d="M-7,-42L0,-35L7,-42L-7,-42Z" style="fill-rule:nonzero;stroke-width:6px;stroke-linejoin:round;"/>
             <g id="mount1" serif:id="mount" transform="matrix(0.309017,0.951057,-0.951057,0.309017,0,0)">
-                <path d="M-7,-42L0,-35L7,-42L-7,-42Z" style="fill-rule:nonzero;stroke:black;stroke-width:6px;stroke-linejoin:round;"/>
+                <path d="M-7,-42L0,-35L7,-42L-7,-42Z" style="fill-rule:nonzero;stroke-width:6px;stroke-linejoin:round;"/>
             </g>
             <g id="mount2" serif:id="mount" transform="matrix(-0.809017,0.587785,-0.587785,-0.809017,0,0)">
-                <path d="M-7,-42L0,-35L7,-42L-7,-42Z" style="fill-rule:nonzero;stroke:black;stroke-width:6px;stroke-linejoin:round;"/>
+                <path d="M-7,-42L0,-35L7,-42L-7,-42Z" style="fill-rule:nonzero;stroke-width:6px;stroke-linejoin:round;"/>
             </g>
             <g id="mount3" serif:id="mount" transform="matrix(-0.809017,-0.587785,0.587785,-0.809017,0,0)">
-                <path d="M-7,-42L0,-35L7,-42L-7,-42Z" style="fill-rule:nonzero;stroke:black;stroke-width:6px;stroke-linejoin:round;"/>
+                <path d="M-7,-42L0,-35L7,-42L-7,-42Z" style="fill-rule:nonzero;stroke-width:6px;stroke-linejoin:round;"/>
             </g>
             <g id="mount4" serif:id="mount" transform="matrix(0.309017,-0.951057,0.951057,0.309017,0,0)">
-                <path d="M-7,-42L0,-35L7,-42L-7,-42Z" style="fill-rule:nonzero;stroke:black;stroke-width:6px;stroke-linejoin:round;"/>
+                <path d="M-7,-42L0,-35L7,-42L-7,-42Z" style="fill-rule:nonzero;stroke-width:6px;stroke-linejoin:round;"/>
             </g>
         </g>
     </g>

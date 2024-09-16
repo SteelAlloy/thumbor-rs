@@ -69,6 +69,12 @@ impl From<(i32, i32)> for Coords {
     }
 }
 
+impl From<[i32; 2]> for Coords {
+    fn from([x, y]: [i32; 2]) -> Self {
+        Self { x, y }
+    }
+}
+
 impl From<i32> for Coords {
     fn from(length: i32) -> Self {
         Self {
