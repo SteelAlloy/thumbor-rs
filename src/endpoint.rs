@@ -47,11 +47,11 @@ pub enum ResponseMode {
     ///
     /// Say we have the following crop URL:
     ///
-    /// http://my-server.thumbor.org/unsafe/-300x-200/left/top/smart/path/to/my/nice/image.jpg
+    /// <http://my-server.thumbor.org/unsafe/-300x-200/left/top/smart/path/to/my/nice/image.jpg>
     ///
     /// If we want the metadata on what thumbor would do, just change the url to be
     ///
-    /// http://my-server.thumbor.org/unsafe/meta/-300x-200/left/top/smart/path/to/my/nice/image.jpg
+    /// <http://my-server.thumbor.org/unsafe/meta/-300x-200/left/top/smart/path/to/my/nice/image.jpg>
     ///
     /// After the processing is finished, thumbor will return a json object containing metadata
     /// on the image and the operations that would have been performed.
@@ -134,27 +134,31 @@ pub struct Endpoint {
     #[builder(into)]
     crop: Option<Rect>,
 
-    /// The fit-in argument specifies that the image should not be auto-cropped and
-    /// auto-resized to be **EXACTLY** the specified size, and should be fit in an imaginary
-    /// box of “E” width and “F” height, instead.
+    /// The fit-in argument specifies that the image should not be auto-cropped
+    /// and auto-resized to be **EXACTLY** the specified size, and should be fit in
+    /// an imaginary box of "E" width and "F" height, instead.
     ///
-    /// Consider an image of *800px* x *600px*, and a fit of *300px* x *200px*.
-    /// This is how thumbor would resize it:
+    /// Consider an image of $800px$ x $600px$, and a fit of $300px$ x $200px$. This is
+    /// how thumbor would resize it:
     ///
-    /// ![](https://thumbor.readthedocs.io/en/latest/_images/vertical-fit-in.png)
+    /// ![An image in a vertical fit-in](https://thumbor.readthedocs.io/en/latest/_images/vertical-fit-in.png)
     ///
-    /// Consider an image of *400px* x *600px*, and a fit of *300px* x *200px*.
-    /// This is how thumbor would resize it:
+    /// Consider an image of $400px$ x $600px$, and a fit of $300px$ x $200px$. This is
+    /// how thumbor would resize it:
     ///
-    /// ![](https://thumbor.readthedocs.io/en/latest/_images/horizontal-fit-in.png)
+    /// ![An image in a horizontal fit-in](https://thumbor.readthedocs.io/en/latest/_images/horizontal-fit-in.png)
     ///
-    /// This is very useful when you need to fit an image somewhere, but you have no idea about the original image dimensions.
+    /// This is very useful when you need to fit an image somewhere, but you
+    /// have no idea about the original image dimensions.
     ///
-    /// If a full fit-in is used, instead of using the largest size for cropping it uses the smallest one, so in the above scenarios:
+    /// If a full fit-in is used, instead of using the largest size for cropping
+    /// it uses the smallest one, so in the above scenarios:
     ///
-    /// For the image of *800px* x *600px*, with a full fit-in of *300px* x *200px*, we would get an image of *300px* x *225px*.
+    /// For the image of $800px$ x $600px$, with a full fit-in of $300px$ x $200px$, we
+    /// would get an image of $300px$ x $225px$.
     ///
-    /// For the image of *400px* x *600px*, with a full fit-in of *300px* x *200px*, we would get an image of *300px* x *450px*.
+    /// For the image of $400px$ x $600px$, with a full fit-in of $300px$ x $200px$, we
+    /// would get an image of $300px$ x $450px$.
     fit_in: Option<FitIn>,
 
     /// The image size argument specifies the size of the image that will be
@@ -190,8 +194,9 @@ pub struct Endpoint {
     /// The horizontal align option controls where the cropping will occur if some width needs to
     /// be trimmed (unless some feature detection occurs - more on that later).
     ///
-    /// So, if we need to trim *300px* of the width and the current horizontal align is [`HAlignment::Left`],
-    /// then we’ll trim *0px* of the left of the image and *300px* of the right side of the image.
+    /// So, if we need to trim $300px$ of the width and the current horizontal
+    /// align is [`HAlignment::Left`], then we'll trim 0px of the left of the image and $300px$
+    /// of the right side of the image.
     ///
     /// The possible values for this option are:
     ///  - [`HAlignment::Left`] - only trims the right side;
@@ -206,8 +211,9 @@ pub struct Endpoint {
 
     /// The vertical align option is analogous to the horizontal one, except that it controls height trimming.
     ///
-    /// So, if we need to trim *300px* of the height and the current vertical align is [`VAlignment::Top`],
-    /// then we’ll trim *0px* of the top of the image and *300px* of the bottom side of the image.
+    /// So, if we need to trim $300px$ of the height and the current vertical
+    /// align is [`VAlignment::Top`], then we'll trim $0px$ of the top of the image and $300px$ of
+    /// the bottom side of the image.
     ///
     /// The possible values for this option are:
     ///  - [`VAlignment::Top`] - only trims the bottom;

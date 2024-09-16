@@ -8,6 +8,7 @@ pub type HmacSha1 = Hmac<Sha1>;
 pub enum Security {
     #[default]
     Unsafe,
+    /// hmac is the signature that ensures [security](https://thumbor.readthedocs.io/en/latest/security.html)
     Hmac(HmacSha1),
 }
 
