@@ -46,9 +46,7 @@ impl fmt::Display for Radius {
 /// Thumbor handles filters in a pipeline. This means that they
 /// run sequentially in the order they are specified!
 /// Given an original image with size $60x40$ and the
-/// following transformations::
-///
-///    http://localhost:8888/fit-in/100x100/filters:watermark(..):blur(..):fill(red,1):upscale()/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+/// following transformations:: http://localhost:8888/fit-in/100x100/filters:watermark(..):blur(..):fill(red,1):upscale()/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
 ///
 /// The resulting image will first check if it can fit into a $100x100$. Since it does,
 /// the filter pipeline will kick in and:
@@ -57,6 +55,29 @@ impl fmt::Display for Radius {
 /// * blur the whole image (including the watermark);
 /// * Fill the outer parts of the image with red (so it will fit in $100x100$);
 /// * Then it will try to upscale. This will have no effect, since at this point the image is already $100x100$.
+///
+/// ```
+/// use thumbor::{Filter, Server, endpoint::filter::Color};
+///
+/// let server = Server::new_unsafe("http://localhost:8888");
+///
+/// let endpoint = server.endpoint_builder()
+///     .filters([
+///         Filter::Blur {
+///             radius: 7,
+///             sigma: None,
+///         },
+///         Filter::Fill {
+///             color: Color::Name("red".to_string()),
+///             fill_transparent: false,
+///         }
+///     ])
+///    .build();
+///
+/// let url = endpoint.to_url("https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg");
+///
+/// assert_eq!(url, "http://localhost:8888/unsafe/filters:blur(7):fill(red)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg");
+/// ```
 #[derive(strum::AsRefStr)]
 #[strum(serialize_all = "lowercase")]
 pub enum Filter {
@@ -80,9 +101,7 @@ pub enum Filter {
     /// Example
     /// -------
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/300x300/filters:autojpg()/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/300x300/filters:autojpg()/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     #[strum(serialize = "autojpg")]
     AutoJPG,
 
@@ -113,21 +132,15 @@ pub enum Filter {
     ///
     /// ![Original picture](https://thumbor.readthedocs.io/en/latest/_images/dice_transparent_background.png)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x300/filters:background_color(blue)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fdocs%2Fimages%2Fdice_transparent_background.png
+    /// :: http://localhost:8888/unsafe/fit-in/300x300/filters:background_color(blue)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fdocs%2Fimages%2Fdice_transparent_background.png
     ///
     /// ![Picture after the background_color(blue) filter](https://thumbor.readthedocs.io/en/latest/_images/dice_blue_background.png)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x300/filters:background_color(f00)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fdocs%2Fimages%2Fdice_transparent_background.png
+    /// :: http://localhost:8888/unsafe/fit-in/300x300/filters:background_color(f00)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fdocs%2Fimages%2Fdice_transparent_background.png
     ///
     /// ![Picture after the background_color(f00) filter](https://thumbor.readthedocs.io/en/latest/_images/dice_red_background.png)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x300/filters:background_color(add8e6)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fdocs%2Fimages%2Fdice_transparent_background.png
+    /// :: http://localhost:8888/unsafe/fit-in/300x300/filters:background_color(add8e6)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fdocs%2Fimages%2Fdice_transparent_background.png
     ///
     /// ![Picture after the background_color(add8e6)](https://thumbor.readthedocs.io/en/latest/_images/dice_lightblue_background.png)
     BackgroundColor(Color),
@@ -156,9 +169,7 @@ pub enum Filter {
     ///
     /// ![Picture before the blur filter](https://thumbor.readthedocs.io/en/latest/_images/blur_before.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:blur(7)/http%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F8%2F8a%2F2006_Ojiya_balloon_festival_011.jpg%2F159px-2006_Ojiya_balloon_festival_011.jpg
+    /// :: http://localhost:8888/unsafe/filters:blur(7)/http%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fthumb%2F8%2F8a%2F2006_Ojiya_balloon_festival_011.jpg%2F159px-2006_Ojiya_balloon_festival_011.jpg
     ///
     /// ![Picture after the blur filter](https://thumbor.readthedocs.io/en/latest/_images/blur_after.jpg)
     Blur { radius: u8, sigma: Option<u8> },
@@ -183,9 +194,7 @@ pub enum Filter {
     ///
     /// ![Picture before the brightness](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:brightness(40)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:brightness(40)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after the brightness](https://thumbor.readthedocs.io/en/latest/_images/tom_after_brightness.jpg)
     Brightness(i8),
@@ -210,15 +219,11 @@ pub enum Filter {
     ///
     /// ![Picture before the contrast filter](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:contrast(40)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:contrast(40)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after positive contrast](https://thumbor.readthedocs.io/en/latest/_images/tom_after_positive_contrast.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:contrast(-40)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:contrast(-40)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after negative contrast](https://thumbor.readthedocs.io/en/latest/_images/tom_after_negative_contrast.jpg)
     Contrast(i8),
@@ -251,33 +256,25 @@ pub enum Filter {
     ///
     /// Normalized Matrix:
     ///
-    /// ::
-    ///
-    ///     1 2 1
+    /// :: 1 2 1
     ///     2 4 2
     ///     2 1 2
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:convolution(1;2;1;2;4;2;1;2;1,3,true)/http://upload.wikimedia.org/wikipedia/commons/5/50/Vd-Orig.png
+    /// :: http://localhost:8888/unsafe/filters:convolution(1;2;1;2;4;2;1;2;1,3,true)/http://upload.wikimedia.org/wikipedia/commons/5/50/Vd-Orig.png
     ///
     /// ![Picture after the convolution filter](https://thumbor.readthedocs.io/en/latest/_images/after_convolution1.png)
     ///
     /// Matrix:
     ///
-    /// ::
-    ///
-    ///     -1 -1 -1
+    /// :: -1 -1 -1
     ///     -1  8 -1
     ///     -1 -1 -1
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:convolution(-1;-1;-1;-1;8;-1;-1;-1;-1,3,false)/http://upload.wikimedia.org/wikipedia/commons/5/50/Vd-Orig.png
+    /// :: http://localhost:8888/unsafe/filters:convolution(-1;-1;-1;-1;8;-1;-1;-1;-1,3,false)/http://upload.wikimedia.org/wikipedia/commons/5/50/Vd-Orig.png
     ///
     /// ![Picture after the convolution filter](https://thumbor.readthedocs.io/en/latest/_images/after_convolution2.png)
     Convolution {
-        matrix_items: Vec<i8>,
+        matrix_items: Vec<i16>,
         number_of_columns: u8,
         should_normalize: bool,
     },
@@ -294,9 +291,7 @@ pub enum Filter {
     ///
     /// .. note:: This filter will only function when ``USE_GIFSICLE_ENGINE`` are set to ``True`` in ``thumbor.conf``:
     ///
-    /// .. code:: python
-    ///
-    ///     USE_GIFSICLE_ENGINE = True
+    /// .. code:: python USE_GIFSICLE_ENGINE = True
     ///
     /// Arguments
     /// ---------
@@ -333,9 +328,7 @@ pub enum Filter {
     ///
     /// ![Picture before the equalize filter](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:equalize()/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:equalize()/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after the equalize filter](https://thumbor.readthedocs.io/en/latest/_images/tom_after_equalize.jpg)
     Equalize,
@@ -365,15 +358,11 @@ pub enum Filter {
     ///
     /// This means that for an URL like:
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/300x100/filters:extract_focal()/localhost:8888/unsafe/100x150:300x200/https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Turkish_Van_Cat.jpg/546px-Turkish_Van_Cat.jpg
+    /// :: http://localhost:8888/unsafe/300x100/filters:extract_focal()/localhost:8888/unsafe/100x150:300x200/https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Turkish_Van_Cat.jpg/546px-Turkish_Van_Cat.jpg
     ///
     /// Thumbor will use as original the following image URL:
     ///
-    /// ::
-    ///
-    ///     https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Turkish_Van_Cat.jpg/546px-Turkish_Van_Cat.jpg
+    /// :: https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Turkish_Van_Cat.jpg/546px-Turkish_Van_Cat.jpg
     ///
     /// Example
     /// -------
@@ -384,25 +373,19 @@ pub enum Filter {
     ///
     /// Cat's eye cropped:
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/100x150:300x200/https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Turkish_Van_Cat.jpg/546px-Turkish_Van_Cat.jpg
+    /// :: http://localhost:8888/unsafe/100x150:300x200/https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Turkish_Van_Cat.jpg/546px-Turkish_Van_Cat.jpg
     ///
     /// ![](https://thumbor.readthedocs.io/en/latest/_images/extract1.jpg)
     ///
     /// A bigger image based on above's crop with the extract\_focal() filter:
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/300x100/filters:extract_focal()/localhost:8888/unsafe/100x150:300x200/https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Turkish_Van_Cat.jpg/546px-Turkish_Van_Cat.jpg
+    /// :: http://localhost:8888/unsafe/300x100/filters:extract_focal()/localhost:8888/unsafe/100x150:300x200/https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Turkish_Van_Cat.jpg/546px-Turkish_Van_Cat.jpg
     ///
     /// ![](https://thumbor.readthedocs.io/en/latest/_images/extract2.jpg)
     ///
     /// Without the filter that would be the result:
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/300x100/localhost:8888/unsafe/100x150:300x200/https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Turkish_Van_Cat.jpg/546px-Turkish_Van_Cat.jpg
+    /// :: http://localhost:8888/unsafe/300x100/localhost:8888/unsafe/100x150:300x200/https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Turkish_Van_Cat.jpg/546px-Turkish_Van_Cat.jpg
     ///
     /// ![](https://thumbor.readthedocs.io/en/latest/_images/extract3.jpg)
     ExtractFocalPoints,
@@ -447,33 +430,23 @@ pub enum Filter {
     ///
     /// ![Original picture](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x300/filters:fill(blue)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/fit-in/300x300/filters:fill(blue)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after the fill(blue) filter](https://thumbor.readthedocs.io/en/latest/_images/fillblue.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x300/filters:fill(f00)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/fit-in/300x300/filters:fill(f00)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after the fill(f00) filter](https://thumbor.readthedocs.io/en/latest/_images/fillred.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x300/filters:fill(add8e6)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/fit-in/300x300/filters:fill(add8e6)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after the fill(add8e6)](https://thumbor.readthedocs.io/en/latest/_images/filllightblue.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x300/filters:fill(auto)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/fit-in/300x300/filters:fill(auto)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after the fill(auto) filter (since 3.7.1)](https://thumbor.readthedocs.io/en/latest/_images/fillauto.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x300/filters:fill(blur)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/fit-in/300x300/filters:fill(blur)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after the fill(blur) filter (since 6.7.1)](https://thumbor.readthedocs.io/en/latest/_images/fillblur.jpg)
     ///
@@ -484,36 +457,26 @@ pub enum Filter {
     ///
     /// ![Original picture](https://thumbor.readthedocs.io/en/latest/_images/dice_transparent_background.png)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x225/filters:fill(blue,1)/https://github.com/thumbor/thumbor/wiki/dice_transparent_background.png
+    /// :: http://localhost:8888/unsafe/fit-in/300x225/filters:fill(blue,1)/https://github.com/thumbor/thumbor/wiki/dice_transparent_background.png
     ///
     /// ![Picture after the fill(blue) filter](https://thumbor.readthedocs.io/en/latest/_images/dice_blue_background.png)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x225/filters:fill(f00,true)/https://github.com/thumbor/thumbor/wiki/dice_transparent_background.png
+    /// :: http://localhost:8888/unsafe/fit-in/300x225/filters:fill(f00,true)/https://github.com/thumbor/thumbor/wiki/dice_transparent_background.png
     ///
     /// ![Picture after the fill(f00) filter](https://thumbor.readthedocs.io/en/latest/_images/dice_red_background.png)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x225/filters:fill(add8e6,1)/https://github.com/thumbor/thumbor/wiki/dice_transparent_background.png
+    /// :: http://localhost:8888/unsafe/fit-in/300x225/filters:fill(add8e6,1)/https://github.com/thumbor/thumbor/wiki/dice_transparent_background.png
     ///
     /// ![Picture after the fill(add8e6)](https://thumbor.readthedocs.io/en/latest/_images/dice_lightblue_background.png)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x225/filters:fill(auto,true)/https://github.com/thumbor/thumbor/wiki/dice_transparent_background.png
+    /// :: http://localhost:8888/unsafe/fit-in/300x225/filters:fill(auto,true)/https://github.com/thumbor/thumbor/wiki/dice_transparent_background.png
     ///
     /// ![Picture after the fill(auto) filter (since 3.7.1)](https://thumbor.readthedocs.io/en/latest/_images/dice_auto_background.png)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/300x225/filters:fill(blur,true)/https://github.com/thumbor/thumbor/wiki/dice_transparent_background.png
+    /// :: http://localhost:8888/unsafe/fit-in/300x225/filters:fill(blur,true)/https://github.com/thumbor/thumbor/wiki/dice_transparent_background.png
     ///
     /// ![Picture after the fill(blur) filter (since 6.7.1)](https://thumbor.readthedocs.io/en/latest/_images/dice_blur_background.png)
-    Filling {
+    Fill {
         color: Color,
         fill_transparent: bool,
     },
@@ -541,9 +504,7 @@ pub enum Filter {
     ///
     /// ![Original picture](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/400x100/filters:focal(146x206:279x360)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/400x100/filters:focal(146x206:279x360)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// After specifying the focal point:
     ///
@@ -571,9 +532,7 @@ pub enum Filter {
     ///Example
     ///-------
     ///
-    ///::
-    ///
-    ///    http://localhost:8888/unsafe/filters:format(webp)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    ///:: http://localhost:8888/unsafe/filters:format(webp)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     Format(Format),
 
     /// Grayscale
@@ -596,9 +555,7 @@ pub enum Filter {
     ///
     /// ![Picture before the grayscale filter](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:grayscale()/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:grayscale()/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after the grayscale filter](https://thumbor.readthedocs.io/en/latest/_images/tom_after_grayscale.jpg)
     Grayscale,
@@ -626,9 +583,7 @@ pub enum Filter {
     ///
     /// ![Picture before the max_bytes filter](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:max_bytes(7500)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:max_bytes(7500)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after 7500 max_bytes filter](https://thumbor.readthedocs.io/en/latest/_images/tom_after_max_bytes.jpg)
     MaxBytes(u32),
@@ -654,9 +609,7 @@ pub enum Filter {
     /// Example
     /// -------
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:no_upscale()/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:no_upscale()/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     NoUpscale,
 
     /// Noise
@@ -679,9 +632,7 @@ pub enum Filter {
     ///
     /// ![Picture before the noise filter](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:noise(40)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:noise(40)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after noise of 40%](https://thumbor.readthedocs.io/en/latest/_images/tom_after_noise.jpg)
     Noise(u8),
@@ -707,9 +658,7 @@ pub enum Filter {
     ///
     /// ![Picture before the percentage crop](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:proportion(0.5)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:proportion(0.5)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture with 50% crop](https://thumbor.readthedocs.io/en/latest/_images/proportion.jpg)
     Proportion(f32),
@@ -728,17 +677,14 @@ pub enum Filter {
     /// Arguments
     /// ---------
     ///
-    /// - ``amount`` - ``0 to 100`` - The quality level (in %) that the end image will
-    /// feature.
+    /// - ``amount`` - ``0 to 100`` - The quality level (in %) that the end image will feature.
     ///
     /// Example
     /// -------
     ///
     /// ![Picture before the quality filter](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:quality(40)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:quality(40)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after 10% quality](https://thumbor.readthedocs.io/en/latest/_images/tom_after_quality.jpg)
     Quality(u8),
@@ -776,9 +722,7 @@ pub enum Filter {
     ///
     /// ![Picture before the RGB filter](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:rgb(20,-20,40)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:rgb(20,-20,40)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after the RGB filter](https://thumbor.readthedocs.io/en/latest/_images/tom_after_rgb.jpg)
     Rgb {
@@ -811,9 +755,7 @@ pub enum Filter {
     ///
     /// ![Picture before the rotate filter](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:rotate(90)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:rotate(90)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after the 90 degrees rotate](https://thumbor.readthedocs.io/en/latest/_images/tom_after_rotate.jpg)
     Rotate(u16),
@@ -840,21 +782,15 @@ pub enum Filter {
     ///
     /// ![Picture before the round corners filter filter](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:round_corner(20,255,255,255)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:round_corner(20,255,255,255)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after rounded corners](https://thumbor.readthedocs.io/en/latest/_images/rounded1.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:round_corner(20|40,0,0,0)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:round_corner(20|40,0,0,0)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after rounded corners](https://thumbor.readthedocs.io/en/latest/_images/rounded2.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:round_corner(30,0,0,0,1)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/filters:round_corner(30,0,0,0,1)/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after rounded corners (transparent)](https://thumbor.readthedocs.io/en/latest/_images/rounded3.png)
     RoundCorners {
@@ -919,9 +855,7 @@ pub enum Filter {
     ///
     /// ![Picture before the sharpen filter](https://thumbor.readthedocs.io/en/latest/_images/man_before_sharpen.png)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:sharpen(2,1.0,true)/http://videoprocessing.ucsd.edu/~stanleychan/research/pix/Blurred_foreman_0005.png
+    /// :: http://localhost:8888/unsafe/filters:sharpen(2,1.0,true)/http://videoprocessing.ucsd.edu/~stanleychan/research/pix/Blurred_foreman_0005.png
     ///
     /// ![Picture after the sharpen filter](https://thumbor.readthedocs.io/en/latest/_images/man_after_sharpen.png)
     ///
@@ -930,9 +864,7 @@ pub enum Filter {
     ///
     /// ![Picture before the sharpen filter](https://thumbor.readthedocs.io/en/latest/_images/eagle_before_sharpen.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:sharpen(1.5,0.5,true)/http://images.cambridgeincolour.com/tutorials/sharpening_eagle2-original.jpg
+    /// :: http://localhost:8888/unsafe/filters:sharpen(1.5,0.5,true)/http://images.cambridgeincolour.com/tutorials/sharpening_eagle2-original.jpg
     ///
     /// ![Picture after the sharpen filter](https://thumbor.readthedocs.io/en/latest/_images/eagle_after_sharpen.jpg)
     ///
@@ -957,9 +889,7 @@ pub enum Filter {
     ///
     /// ![Picture before the stretch filter](https://thumbor.readthedocs.io/en/latest/_images/tom_before_brightness.jpg)
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/200x100/filters:stretch()/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
+    /// :: http://localhost:8888/unsafe/200x100/filters:stretch()/https%3A%2F%2Fgithub.com%2Fthumbor%2Fthumbor%2Fraw%2Fmaster%2Fexample.jpg
     ///
     /// ![Picture after the stretch filter](https://thumbor.readthedocs.io/en/latest/_images/stretch_after.jpg)
     Stretch,
@@ -986,9 +916,7 @@ pub enum Filter {
     /// Example
     /// -------
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:strip\_exif()/http://www.arte.tv/static-epgapi/057460-011-A.jpg
+    /// :: http://localhost:8888/unsafe/filters:strip\_exif()/http://www.arte.tv/static-epgapi/057460-011-A.jpg
     StripEXIF,
 
     /// Strip ICC
@@ -1011,9 +939,7 @@ pub enum Filter {
     /// Example
     /// -------
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/filters:strip\_icc()/http://videoprocessing.ucsd.edu/~stanleychan/research/pix/Blurred_foreman_0005.png
+    /// :: http://localhost:8888/unsafe/filters:strip\_icc()/http://videoprocessing.ucsd.edu/~stanleychan/research/pix/Blurred_foreman_0005.png
     StripICC,
 
     /// Upscale
@@ -1038,9 +964,7 @@ pub enum Filter {
     /// Example
     /// -------
     ///
-    /// ::
-    ///
-    ///     http://localhost:8888/unsafe/fit-in/600x500/filters:upscale()/https://raw.githubusercontent.com/thumbor/thumbor/e86324e49d7e53acc2a8057e43f3fdd2ca5cea75/docs/images/dice_transparent_background.png
+    /// :: http://localhost:8888/unsafe/fit-in/600x500/filters:upscale()/https://raw.githubusercontent.com/thumbor/thumbor/e86324e49d7e53acc2a8057e43f3fdd2ca5cea75/docs/images/dice_transparent_background.png
     Upscale,
 
     /// Watermark
@@ -1088,15 +1012,11 @@ pub enum Filter {
     /// Example
     /// -------
     ///
-    /// ::
-    ///
-    ///     http://thumbor-server/filters:watermark(http://my.site.com/img.png,-10,-10,50)/some/image.jpg
+    /// :: http://thumbor-server/filters:watermark(http://my.site.com/img.png,-10,-10,50)/some/image.jpg
     ///
     /// ![Picture after the watermark filter](https://thumbor.readthedocs.io/en/latest/_images/tom_after_watermark.jpg)
     ///
-    /// ::
-    ///
-    ///     http://thumbor-server/filters:watermark(http://my.site.com/img.png,10p,-20p,50)/some/image.jpg
+    /// :: http://thumbor-server/filters:watermark(http://my.site.com/img.png,10p,-20p,50)/some/image.jpg
     ///
     /// ![Picture explaining watermark relative placement feature](https://thumbor.readthedocs.io/en/latest/_images/tom_watermark_relative.jpg)
     ///
@@ -1204,7 +1124,7 @@ impl Filter {
                 number_of_columns.to_string(),
                 should_normalize.to_string(),
             ],
-            Filter::Filling {
+            Filter::Fill {
                 color,
                 fill_transparent,
             } => {
