@@ -156,9 +156,68 @@ pub struct Endpoint {
     ///
     /// For the image of *400px* x *600px*, with a full fit-in of *300px* x *200px*, we would get an image of *300px* x *450px*.
     fit_in: Option<FitIn>,
+
+    /// The image size argument specifies the size of the image that will be
+    /// returned by the service. Thumbor uses smart [crop_and_resize_algorithms](https://thumbor.readthedocs.io/en/latest/crop_and_resize_algorithms.html)
+    /// 
+    /// If you omit one of the dimensions or use zero as a value (as in $ 300x $,
+    /// $ 300x0 $, $ x200 $, $ 0x200 $, and so on), Thumbor will determine that dimension as
+    /// to be proportional to the original image. Say you have an $ 800x600 $ image
+    /// and ask for a $ 400x0 $ image. Thumbor will infer that since $ 400 $ is half of
+    /// $ 800 $, then the height you are looking for is half of $ 600 $, which is $ 300px $.
+    /// 
+    /// If you use $ 0x0 $, Thumbor will use the original size of the image and thus
+    /// won't do any cropping or resizing.
+    /// 
+    /// If you specify one of the dimensions as the string "orig" (as in
+    /// $ origx100 $, $ 100xorig $, $ origxorig $), thumbor will interpret that you want
+    /// that dimension to remain the same as in the original image. Consider an
+    /// image of $ 800x600 $. If you ask for a $ 300xorig $ version of it, thumbor will
+    /// interpret that you want a $ 300x600 $ image. If you instead ask for a
+    /// $ origx300 $ version, thumbor will serve you an $ 800x300 $ image.
+    /// 
+    /// If you use $ origxorig $, Thumbor will use the original size of the image
+    /// and thus won't do any cropping or resizing.
+    /// 
+    /// **The default value (in case it is omitted) for this option is to use
+    /// proportional size (0) to the original image.**
     #[builder(into)]
     resize: Option<Coords>,
+
+    /// As was explained above, unless the image is of the same proportion as the desired size,
+    /// some cropping will need to occur.
+    /// 
+    /// The horizontal align option controls where the cropping will occur if some width needs to
+    /// be trimmed (unless some feature detection occurs - more on that later).
+    /// 
+    /// So, if we need to trim *300px* of the width and the current horizontal align is [`HAlignment::Left`], 
+    /// then we’ll trim *0px* of the left of the image and *300px* of the right side of the image.
+    /// 
+    /// The possible values for this option are:
+    ///  - [`HAlignment::Left`] - only trims the right side;
+    ///  - [`HAlignment::Center`] - trims half of the width from the left side and half from the right side;
+    ///  - [`HAlignment::Right`] - only trims the left side.
+    /// 
+    /// It is important to notice that this option is useless in case of the image being vertically trimmed,
+    /// since Thumbor’s cropping algorithm only crops in one direction.
+    /// 
+    /// **The default value (in case it is omitted) for this option is [`HAlignment::Center`].**
     h_align: Option<HAlignment>,
+
+    /// The vertical align option is analogous to the horizontal one, except that it controls height trimming.
+    /// 
+    /// So, if we need to trim *300px* of the height and the current vertical align is [`VAlignment::Top`],
+    /// then we’ll trim *0px* of the top of the image and *300px* of the bottom side of the image.
+    /// 
+    /// The possible values for this option are:
+    ///  - [`VAlignment::Top`] - only trims the bottom;
+    ///  - [`VAlignment::Middle`] - trims half of the height from the top and half from the bottom;
+    ///  - [`VAlignment::Bottom`] - only trims the top.
+    /// 
+    /// It is important to notice that this option is useless in case of the image being horizontally trimmed,
+    /// since Thumbor’s cropping algorithm only crops in one direction.
+    /// 
+    /// **The default value (in case it is omitted) for this option is [`VAlignment::Middle`].**
     v_align: Option<VAlignment>,
 
     /// Thumbor allows for usage of a filter pipeline that will be applied sequentially to the image.
