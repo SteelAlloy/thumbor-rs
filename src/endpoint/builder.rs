@@ -1,77 +1,29 @@
-use super::{Endpoint, FitIn, ResponseMode, Trim};
+use super::{Endpoint, Filters, Smart};
 use crate::server::Security;
 use base64ct::{Base64Url, Encoding};
 use hmac::Mac;
 
 impl Endpoint {
-    fn build_path(&self, image_uri: &str) -> String {
-        let mut path = vec![];
+    fn build_path(&self, image_uri: impl ToString) -> String {
+        let smart = self.smart.then_some(Smart);
+        let filters = Filters::new(&self.filters);
 
-        if let Some(resp) = &self.response {
-            path.push(
-                match resp {
-                    ResponseMode::Metadata => "meta",
-                    ResponseMode::Debug => "debug",
-                }
-                .to_owned(),
-            );
-        }
-
-        if let Some(orientation) = &self.trim {
-            path.push(
-                match orientation {
-                    Trim::TopLeft => "trim:top-left",
-                    Trim::BottomRight => "trim:bottom-right",
-                }
-                .to_owned(),
-            );
-        }
-
-        if let Some(crop) = &self.crop {
-            path.push(crop.to_string());
-        }
-
-        if let Some(fit_in) = &self.fit_in {
-            path.push(
-                match fit_in {
-                    FitIn::Default => "fit-in",
-                    FitIn::Adaptive => "adaptive-fit-in",
-                    FitIn::Full => "full-fit-in",
-                }
-                .to_owned(),
-            );
-        }
-
-        if let Some(resize) = &self.resize {
-            path.push(resize.to_string());
-        }
-
-        if let Some(h_align) = &self.h_align {
-            path.push(h_align.as_ref().to_owned());
-        }
-
-        if let Some(v_align) = &self.v_align {
-            path.push(v_align.as_ref().to_owned());
-        }
-
-        if self.smart {
-            path.push("smart".to_owned());
-        }
-
-        if !self.filters.is_empty() {
-            let filters = self
-                .filters
-                .iter()
-                .map(ToString::to_string)
-                .collect::<Vec<_>>()
-                .join(":");
-
-            path.push(format!("filters:{filters}"));
-        }
-
-        path.push(image_uri.to_owned());
-
-        path.join("/")
+        [
+            self.response.as_ref().map(ToString::to_string),
+            self.trim.as_ref().map(ToString::to_string),
+            self.crop.as_ref().map(ToString::to_string),
+            self.fit_in.as_ref().map(ToString::to_string),
+            self.resize.as_ref().map(ToString::to_string),
+            self.h_align.as_ref().map(ToString::to_string),
+            self.v_align.as_ref().map(ToString::to_string),
+            smart.as_ref().map(ToString::to_string),
+            filters.as_ref().map(ToString::to_string),
+            Some(image_uri.to_string()),
+        ]
+        .into_iter()
+        .flatten()
+        .collect::<Vec<_>>()
+        .join("/")
     }
 
     /// ```
@@ -83,7 +35,7 @@ impl Endpoint {
     ///
     /// assert_eq!(path, "/unsafe/path/to/my/image.jpg");
     /// ```
-    pub fn to_path(&self, image_uri: &str) -> String {
+    pub fn to_path(&self, image_uri: impl ToString) -> String {
         let path = self.build_path(image_uri);
 
         let security = match &self.server.security {
@@ -109,7 +61,7 @@ impl Endpoint {
     ///
     /// assert_eq!(path, "http://localhost:8888/unsafe/path/to/my/image.jpg");
     /// ```
-    pub fn to_url(&self, image_uri: &str) -> String {
+    pub fn to_url(&self, image_uri: impl ToString) -> String {
         format!("{}{}", self.server.origin, self.to_path(image_uri))
     }
 }

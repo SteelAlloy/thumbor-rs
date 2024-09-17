@@ -1,6 +1,6 @@
 [package]
 name = "thumbor"
-description = "A Rust client for the Thumbor image service"
+description = "Rust client for the Thumbor image service. Provides a convenient builder API"
 version = "0.1.11"
 repository = "https://github.com/SteelAlloy/thumbor-rs"
 documentation = "https://docs.rs/thumbor"

@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use crate::{
     geometry::{Coords, Rect},
     server::Server,
@@ -7,7 +9,7 @@ use filter::Filter;
 mod builder;
 pub mod filter;
 
-#[derive(strum::AsRefStr)]
+#[derive(strum::Display)]
 #[strum(serialize_all = "lowercase")]
 pub enum HAlignment {
     Left,
@@ -15,7 +17,7 @@ pub enum HAlignment {
     Right,
 }
 
-#[derive(strum::AsRefStr)]
+#[derive(strum::Display)]
 #[strum(serialize_all = "lowercase")]
 pub enum VAlignment {
     Top,
@@ -23,21 +25,59 @@ pub enum VAlignment {
     Bottom,
 }
 
-#[derive(Default)]
+#[derive(Default, strum::Display)]
 pub enum Trim {
     #[default]
+    #[strum(to_string = "trim:top-left")]
     TopLeft,
+    #[strum(to_string = "trim:bottom-right")]
     BottomRight,
 }
 
-#[derive(Default)]
+#[derive(Default, strum::Display)]
 pub enum FitIn {
     #[default]
+    #[strum(to_string = "fit-in")]
     Default,
+    #[strum(to_string = "adaptive-fit-in")]
     Adaptive,
+    #[strum(to_string = "full-fit-in")]
     Full,
 }
 
+struct Smart;
+
+impl Display for Smart {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "smart")
+    }
+}
+
+struct Filters<'a>(&'a [Filter]);
+
+impl<'a> Filters<'a> {
+    fn new(filters: &'a [Filter]) -> Option<Self> {
+        if filters.is_empty() {
+            None
+        } else {
+            Some(Self(filters))
+        }
+    }
+}
+
+impl Display for Filters<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let filters = self
+            .0
+            .iter()
+            .map(ToString::to_string)
+            .collect::<Vec<_>>()
+            .join(":");
+        write!(f, "filters:{}", filters)
+    }
+}
+
+#[derive(strum::Display)]
 pub enum ResponseMode {
     /// The metadata endpoint has **ALL** the options that the image one has,
     /// but instead of actually performing the operations in the image, it just simulates the operations.
@@ -84,9 +124,11 @@ pub enum ResponseMode {
     ///     }
     /// }
     /// ```
+    #[strum(serialize = "meta")]
     Metadata,
 
     /// The debug endpoint helps debug focal points by drawing a rectangle around them.
+    #[strum(serialize = "debug")]
     Debug,
 }
 
