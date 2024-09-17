@@ -73,7 +73,7 @@ impl Display for Filters<'_> {
             .map(ToString::to_string)
             .collect::<Vec<_>>()
             .join(":");
-        write!(f, "filters:{}", filters)
+        write!(f, "filters:{filters}")
     }
 }
 

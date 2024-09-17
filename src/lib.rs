@@ -28,6 +28,7 @@
 pub mod endpoint;
 pub mod error;
 pub mod geometry;
+pub mod metadata;
 mod server;
 
 #[cfg(test)]

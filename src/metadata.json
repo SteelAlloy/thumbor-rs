@@ -1,0 +1,25 @@
+{
+    "thumbor": {
+        "source": {
+            "url": "path/to/my/nice/image.jpg",
+            "width": 800,
+            "height": 600
+        },
+        "operations": [
+            {
+                "type": "crop",
+                "left": 10,
+                "top": 10,
+                "right": 300,
+                "bottom": 200
+            },
+            {
+                "type": "resize",
+                "width": 300,
+                "height": 200
+            },
+            { "type": "flip_horizontally" },
+            { "type": "flip_vertically" }
+        ]
+    }
+}

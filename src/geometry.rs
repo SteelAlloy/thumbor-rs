@@ -1,6 +1,8 @@
 use std::fmt;
 
-#[derive(Debug, Clone, Copy)]
+use serde::Deserialize;
+
+#[derive(Debug, Clone, Copy, Eq, Ord, PartialEq, PartialOrd)]
 pub struct Coords {
     x: i32,
     y: i32,
@@ -96,13 +98,35 @@ pub struct Rect {
 }
 
 impl Rect {
+    pub fn new(a: Coords, b: Coords) -> Self {
+        if a > b {
+            Self { min: b, max: a }
+        } else {
+            Self { min: a, max: b }
+        }
+    }
+
+    pub fn from_center(c: impl Into<Coords>, width: i32, height: i32) -> Self {
+        let c = c.into();
+        let rx = width / 2;
+        let ry = height / 2;
+
+        Self::from(((c.x - rx, c.y - ry), (c.x + rx, c.y + ry)))
+    }
+
     #[must_use]
     pub fn center(&self) -> Coords {
         (self.min + self.max) / 2
     }
-}
 
-impl Rect {
+    pub fn width(&self) -> i32 {
+        self.max.x - self.min.x
+    }
+
+    pub fn height(&self) -> i32 {
+        self.max.y - self.min.y
+    }
+
     #[must_use]
     pub fn scale(mut self, factor: f32) -> Self {
         let center = self.center();
@@ -115,11 +139,8 @@ impl Rect {
 }
 
 impl<T: Into<Coords>> From<(T, T)> for Rect {
-    fn from((min, max): (T, T)) -> Self {
-        Self {
-            min: min.into(),
-            max: max.into(),
-        }
+    fn from((a, b): (T, T)) -> Self {
+        Self::new(a.into(), b.into())
     }
 }
 
