@@ -1,7 +1,9 @@
 use std::fmt::Display;
 
 use crate::{
-    geometry::{Point, Rect}, metadata::Operation, server::Server
+    geometry::{Point, Rect},
+    metadata::Operation,
+    server::Server,
 };
 use filter::Filter;
 
@@ -287,11 +289,11 @@ pub struct Endpoint {
 
 pub fn endpoint_from_operations(builder: EndpointBuilder, operations: Vec<Operation>) -> Endpoint {
     let mut endpoint = builder.build();
-    
+
     for operation in operations {
         match operation {
             Operation::Resize(size) => {
-               endpoint.resize = Some(size);
+                endpoint.resize = Some(size);
             }
             Operation::Crop(rect) => {
                 endpoint.crop = Some(rect);
@@ -307,7 +309,7 @@ pub fn endpoint_from_operations(builder: EndpointBuilder, operations: Vec<Operat
                 }
             }
         }
-    };
-    
+    }
+
     endpoint
 }

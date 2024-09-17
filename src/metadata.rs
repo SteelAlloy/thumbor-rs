@@ -1,4 +1,4 @@
-use crate::{geometry::{Point, Rect}, Endpoint, EndpointBuilder};
+use crate::geometry::{Point, Rect};
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
