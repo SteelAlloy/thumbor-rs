@@ -1,4 +1,4 @@
-use super::{Endpoint, FitIn, ResponseMode, Trim};
+use super::Endpoint;
 use crate::server::Security;
 use base64ct::{Base64Url, Encoding};
 use hmac::Mac;
@@ -8,23 +8,11 @@ impl Endpoint {
         let mut path = vec![];
 
         if let Some(resp) = &self.response {
-            path.push(
-                match resp {
-                    ResponseMode::Metadata => "meta",
-                    ResponseMode::Debug => "debug",
-                }
-                .to_owned(),
-            );
+            path.push(resp.to_string());
         }
 
         if let Some(orientation) = &self.trim {
-            path.push(
-                match orientation {
-                    Trim::TopLeft => "trim:top-left",
-                    Trim::BottomRight => "trim:bottom-right",
-                }
-                .to_owned(),
-            );
+            path.push(orientation.to_string());
         }
 
         if let Some(crop) = &self.crop {
@@ -32,14 +20,7 @@ impl Endpoint {
         }
 
         if let Some(fit_in) = &self.fit_in {
-            path.push(
-                match fit_in {
-                    FitIn::Default => "fit-in",
-                    FitIn::Adaptive => "adaptive-fit-in",
-                    FitIn::Full => "full-fit-in",
-                }
-                .to_owned(),
-            );
+            path.push(fit_in.to_string());
         }
 
         if let Some(resize) = &self.resize {
@@ -47,15 +28,15 @@ impl Endpoint {
         }
 
         if let Some(h_align) = &self.h_align {
-            path.push(h_align.as_ref().to_owned());
+            path.push(h_align.to_string());
         }
 
         if let Some(v_align) = &self.v_align {
-            path.push(v_align.as_ref().to_owned());
+            path.push(v_align.to_string());
         }
 
         if self.smart {
-            path.push("smart".to_owned());
+            path.push("smart".to_string());
         }
 
         if !self.filters.is_empty() {
