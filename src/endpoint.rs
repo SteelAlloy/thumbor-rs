@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 use crate::{
     geometry::{Coords, Rect},
     server::Server,
@@ -41,6 +43,38 @@ pub enum FitIn {
     Adaptive,
     #[strum(to_string = "full-fit-in")]
     Full,
+}
+
+struct Smart;
+
+impl Display for Smart {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "smart")
+    }
+}
+
+struct Filters<'a>(&'a [Filter]);
+
+impl<'a> Filters<'a> {
+    fn new(filters: &'a [Filter]) -> Option<Self> {
+        if filters.is_empty() {
+            None
+        } else {
+            Some(Self(filters))
+        }
+    }
+}
+
+impl Display for Filters<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let filters = self
+            .0
+            .iter()
+            .map(ToString::to_string)
+            .collect::<Vec<_>>()
+            .join(":");
+        write!(f, "filters:{}", filters)
+    }
 }
 
 #[derive(strum::Display)]
