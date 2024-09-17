@@ -1,8 +1,7 @@
 use std::fmt::Display;
 
 use crate::{
-    geometry::{Coords, Rect},
-    server::Server,
+    geometry::{Point, Rect}, metadata::Operation, server::Server
 };
 use filter::Filter;
 
@@ -228,7 +227,7 @@ pub struct Endpoint {
     /// **The default value (in case it is omitted) for this option is to use
     /// proportional size (0) to the original image.**
     #[builder(into)]
-    resize: Option<Coords>,
+    resize: Option<Point>,
 
     /// As was explained above, unless the image is of the same proportion as the desired size,
     /// some cropping will need to occur.
@@ -284,4 +283,31 @@ pub struct Endpoint {
     /// **The default value (in case it is omitted) for this option is not to use smart cropping.**
     #[builder(default)]
     smart: bool,
+}
+
+pub fn endpoint_from_operations(builder: EndpointBuilder, operations: Vec<Operation>) -> Endpoint {
+    let mut endpoint = builder.build();
+    
+    for operation in operations {
+        match operation {
+            Operation::Resize(size) => {
+               endpoint.resize = Some(size);
+            }
+            Operation::Crop(rect) => {
+                endpoint.crop = Some(rect);
+            }
+            Operation::FlipHorizontally => {
+                if let Some(resize) = endpoint.resize.as_mut() {
+                    resize.flip_x();
+                }
+            }
+            Operation::FlipVertically => {
+                if let Some(resize) = endpoint.resize.as_mut() {
+                    resize.flip_y();
+                }
+            }
+        }
+    };
+    
+    endpoint
 }

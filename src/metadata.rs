@@ -1,4 +1,4 @@
-use crate::geometry::Rect;
+use crate::{geometry::{Point, Rect}, Endpoint, EndpointBuilder};
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
@@ -35,8 +35,8 @@ impl From<FocalPoint> for Rect {
 #[derive(Deserialize, Debug)]
 #[serde(tag = "type", rename_all = "snake_case")]
 pub enum Operation {
-    Resize,
-    Crop,
+    Resize(Point),
+    Crop(Rect),
     FlipHorizontally,
     FlipVertically,
 }
