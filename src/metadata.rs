@@ -13,9 +13,10 @@ pub struct Source {
 
 #[derive(Deserialize, Debug)]
 pub struct Data {
-    // pub focal_points: Vec<FocalPoint>,
     pub source: Source,
     pub operations: Vec<Operation>,
+    pub target: Point,
+    pub focal_points: Option<Vec<FocalPoint>>,
 }
 
 #[derive(Deserialize, Debug, Default)]
@@ -39,4 +40,5 @@ pub enum Operation {
     Crop(Rect),
     FlipHorizontally,
     FlipVertically,
+    AutoPngToJpgConversion,
 }

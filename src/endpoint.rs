@@ -2,7 +2,6 @@ use std::fmt::Display;
 
 use crate::{
     geometry::{Point, Rect},
-    metadata::Operation,
     server::Server,
 };
 use filter::Filter;
@@ -150,8 +149,8 @@ pub enum ResponseMode {
 #[builder(start_fn = with_server)]
 pub struct Endpoint {
     #[builder(start_fn)]
-    server: Server,
-    response: Option<ResponseMode>,
+    pub server: Server,
+    pub response: Option<ResponseMode>,
 
     /// Removing surrounding space in images can be done using the trim option.
     ///
@@ -162,7 +161,7 @@ pub struct Endpoint {
     /// of the reference pixel and the surrounding pixels is used. If the distance is
     /// within the tolerance they’ll get trimmed. For a RGB image the tolerance would
     /// be within the range 0-442.
-    trim: Option<Trim>,
+    pub trim: Option<Trim>,
 
     /// The manual crop is entirely optional. This is very useful for applications
     /// that provide custom real-time cropping capabilities to their users.
@@ -175,7 +174,7 @@ pub struct Endpoint {
     /// a prepare step before resizing and smart-cropping. It is very useful when you
     /// just need to get that celebrity face on a big picture full of people, as an example.
     #[builder(into)]
-    crop: Option<Rect>,
+    pub crop: Option<Rect>,
 
     /// The fit-in argument specifies that the image should not be auto-cropped
     /// and auto-resized to be **EXACTLY** the specified size, and should be fit in
@@ -202,7 +201,7 @@ pub struct Endpoint {
     ///
     /// For the image of $400px$ x $600px$, with a full fit-in of $300px$ x $200px$, we
     /// would get an image of $300px$ x $450px$.
-    fit_in: Option<FitIn>,
+    pub fit_in: Option<FitIn>,
 
     /// The image size argument specifies the size of the image that will be
     /// returned by the service. Thumbor uses smart [crop_and_resize_algorithms](https://thumbor.readthedocs.io/en/latest/crop_and_resize_algorithms.html)
@@ -229,7 +228,7 @@ pub struct Endpoint {
     /// **The default value (in case it is omitted) for this option is to use
     /// proportional size (0) to the original image.**
     #[builder(into)]
-    resize: Option<Point>,
+    pub resize: Option<Point>,
 
     /// As was explained above, unless the image is of the same proportion as the desired size,
     /// some cropping will need to occur.
@@ -250,7 +249,7 @@ pub struct Endpoint {
     /// since Thumbor’s cropping algorithm only crops in one direction.
     ///
     /// **The default value (in case it is omitted) for this option is [`HAlignment::Center`].**
-    h_align: Option<HAlignment>,
+    pub h_align: Option<HAlignment>,
 
     /// The vertical align option is analogous to the horizontal one, except that it controls height trimming.
     ///
@@ -267,11 +266,11 @@ pub struct Endpoint {
     /// since Thumbor’s cropping algorithm only crops in one direction.
     ///
     /// **The default value (in case it is omitted) for this option is [`VAlignment::Middle`].**
-    v_align: Option<VAlignment>,
+    pub v_align: Option<VAlignment>,
 
     /// Thumbor allows for usage of a filter pipeline that will be applied sequentially to the image.
     #[builder(default, into)]
-    filters: Vec<Filter>,
+    pub filters: Vec<Filter>,
 
     /// Thumbor uses some very advanced techniques for obtaining important points of
     /// the image (referred to as Focal Points in the rest of this documentation).
@@ -284,32 +283,40 @@ pub struct Endpoint {
     ///
     /// **The default value (in case it is omitted) for this option is not to use smart cropping.**
     #[builder(default)]
-    smart: bool,
+    pub smart: bool,
 }
 
-pub fn endpoint_from_operations(builder: EndpointBuilder, operations: Vec<Operation>) -> Endpoint {
-    let mut endpoint = builder.build();
-
-    for operation in operations {
-        match operation {
-            Operation::Resize(size) => {
-                endpoint.resize = Some(size);
-            }
-            Operation::Crop(rect) => {
-                endpoint.crop = Some(rect);
-            }
-            Operation::FlipHorizontally => {
-                if let Some(resize) = endpoint.resize.as_mut() {
-                    resize.flip_x();
-                }
-            }
-            Operation::FlipVertically => {
-                if let Some(resize) = endpoint.resize.as_mut() {
-                    resize.flip_y();
-                }
-            }
-        }
+impl Endpoint {
+    pub fn flip_horizontally(mut self) -> Self {
+        self.resize.as_mut().map(Point::flip_x);
+        self
     }
 
-    endpoint
+    pub fn flip_vertically(mut self) -> Self {
+        self.resize.as_mut().map(Point::flip_y);
+        self
+    }
 }
+
+// pub fn endpoint_from_operations(builder: EndpointBuilder, operations: Vec<Operation>) -> Endpoint {
+//     let mut endpoint = builder.build();
+
+//     for operation in operations {
+//         match operation {
+//             Operation::Resize(size) => {
+//                 endpoint.resize = Some(size);
+//             }
+//             Operation::Crop(rect) => {
+//                 endpoint.crop = Some(rect);
+//             }
+//             Operation::FlipHorizontally => {
+//                 endpoint.resize.as_mut().map(Point::flip_x);
+//             }
+//             Operation::FlipVertically => {
+//                 endpoint.resize.as_mut().map(Point::flip_y);
+//             }
+//         }
+//     }
+
+//     endpoint
+// }

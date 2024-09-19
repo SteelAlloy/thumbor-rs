@@ -20,6 +20,7 @@
             },
             { "type": "flip_horizontally" },
             { "type": "flip_vertically" }
-        ]
+        ],
+        "target": {"width": 300, "height": 200}
     }
 }

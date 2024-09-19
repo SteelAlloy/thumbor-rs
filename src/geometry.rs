@@ -15,14 +15,14 @@ impl Point {
         Self { x, y }
     }
 
-    pub fn flip_x(self) -> Self {
+    pub fn flip_x(&mut self) -> Self {
         Self {
             x: -self.x,
             y: self.y,
         }
     }
 
-    pub fn flip_y(self) -> Self {
+    pub fn flip_y(&mut self) -> Self {
         Self {
             x: self.x,
             y: -self.y,
