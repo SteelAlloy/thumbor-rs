@@ -3,27 +3,26 @@ use crate::server::Security;
 use base64ct::{Base64Url, Encoding};
 use hmac::Mac;
 
+fn stringify<T: ToString>(a: &Option<T>) -> Option<String> {
+    a.as_ref().map(ToString::to_string)
+}
+
 impl Endpoint {
     fn build_path(&self, image_uri: impl ToString) -> String {
-        let smart = self.smart.then_some(Smart);
-        let filters = Filters::new(&self.filters);
+        let parts = [
+            stringify(&self.response),
+            stringify(&self.trim),
+            stringify(&self.crop),
+            stringify(&self.fit_in),
+            stringify(&self.resize),
+            stringify(&self.h_align),
+            stringify(&self.v_align),
+            stringify(&self.smart.then_some(Smart)),
+            stringify(&Filters::new(&self.filters)),
+            stringify(&Some(image_uri)),
+        ];
 
-        [
-            self.response.as_ref().map(ToString::to_string),
-            self.trim.as_ref().map(ToString::to_string),
-            self.crop.as_ref().map(ToString::to_string),
-            self.fit_in.as_ref().map(ToString::to_string),
-            self.resize.as_ref().map(ToString::to_string),
-            self.h_align.as_ref().map(ToString::to_string),
-            self.v_align.as_ref().map(ToString::to_string),
-            smart.as_ref().map(ToString::to_string),
-            filters.as_ref().map(ToString::to_string),
-            Some(image_uri.to_string()),
-        ]
-        .into_iter()
-        .flatten()
-        .collect::<Vec<_>>()
-        .join("/")
+        parts.into_iter().flatten().collect::<Vec<_>>().join("/")
     }
 
     /// ```
