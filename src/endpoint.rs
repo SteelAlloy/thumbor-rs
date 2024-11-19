@@ -5,6 +5,7 @@ use crate::{
     metadata::Operation,
     server::Server,
 };
+use endpoint_builder::{IsUnset, SetResponse, State};
 use filter::Filter;
 
 mod builder;
@@ -285,6 +286,41 @@ pub struct Endpoint {
     /// **The default value (in case it is omitted) for this option is not to use smart cropping.**
     #[builder(default)]
     smart: bool,
+}
+
+impl<S: State> EndpointBuilder<S> {
+    /// The metadata endpoint has **ALL** the options that the image one has,
+    /// but instead of actually performing the operations in the image, it just simulates the operations.
+    ///
+    /// ```
+    /// let server = thumbor::Server::new_unsafe("http://localhost:8888");
+    ///
+    /// let endpoint = server.endpoint_builder()
+    ///     .metadata()
+    ///     .build();
+    /// ```
+    pub fn metadata(self) -> EndpointBuilder<SetResponse<S>>
+    where
+        S::Response: IsUnset,
+    {
+        self.response(ResponseMode::Metadata)
+    }
+
+    /// The debug endpoint helps debug focal points by drawing a rectangle around them.
+    ///
+    /// ```
+    /// let server = thumbor::Server::new_unsafe("http://localhost:8888");
+    ///
+    /// let endpoint = server.endpoint_builder()
+    ///     .debug()
+    ///     .build();
+    /// ```
+    pub fn debug(self) -> EndpointBuilder<SetResponse<S>>
+    where
+        S::Response: IsUnset,
+    {
+        self.response(ResponseMode::Debug)
+    }
 }
 
 pub fn endpoint_from_operations(builder: EndpointBuilder, operations: Vec<Operation>) -> Endpoint {
