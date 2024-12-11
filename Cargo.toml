@@ -25,7 +25,7 @@ pedantic = "deny"
 
 [dependencies]
 strum = { version = "0.26.3", features = ["derive"] }
-thiserror = "2.0.3"
+thiserror = "2.0.6"
 hmac = "0.12.1"
 sha1 = "0.10.6"
 base64ct = { version = "1.6.0", features = ["alloc"] }
