@@ -24,7 +24,7 @@ cargo = "deny"
 pedantic = "deny"
 
 [dependencies]
-strum = { version = "0.26.3", features = ["derive"] }
+strum = { version = "0.27.2", features = ["derive"] }
 thiserror = "2.0.12"
 hmac = "0.12.1"
 sha1 = "0.10.6"
